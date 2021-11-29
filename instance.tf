@@ -17,11 +17,18 @@ resource "aws_instance" "instance" {
   user_data = <<-EOF
     #!/bin/bash
     set -ex
-    sudo yum update -y
-    sudo amazon-linux-extras install docker -y
-    sudo service docker start
-    sudo usermod -a -G docker ec2-user
-    sudo docker run -p 80:80 httpd
+    sudo su
+    mkdir /home/ec2-user/testing
+    cd /home/ec2-user/testing 
+    wget https://univr.s3.ap-south-1.amazonaws.com/build.zip
+    wget https://univr.s3.ap-south-1.amazonaws.com/Dockerfile
+    unzip build.zip
+    yum update -y
+    amazon-linux-extras install docker -y
+    service docker start
+    usermod -a -G docker ec2-user
+    docker build -t my-apache2 .
+    docker run -dit --name my-running-app -p 80:80 my-apache2
   EOF
   tags = {
     Name = "${var.files_name}"
@@ -39,18 +46,21 @@ resource "aws_instance" "instance2" {
   user_data = <<-EOF
     #!/bin/bash
     set -ex
-    sudo yum update -y
-    sudo amazon-linux-extras install docker -y
-    sudo service docker start
-    sudo usermod -a -G docker ec2-user
-    sudo docker run -p 80:80 httpd
+    sudo su
+    mkdir /home/ec2-user/testing
+    cd /home/ec2-user/testing 
+    wget https://univr.s3.ap-south-1.amazonaws.com/build.zip
+    wget https://univr.s3.ap-south-1.amazonaws.com/Dockerfile
+    unzip build.zip
+    yum update -y
+    amazon-linux-extras install docker -y
+    service docker start
+    usermod -a -G docker ec2-user
+    docker build -t my-apache2 .
+    docker run -dit --name my-running-app -p 80:80 my-apache2
   EOF
   tags = {
     Name = "${var.files_name}"
   }
 
 }
-
-
-
-
