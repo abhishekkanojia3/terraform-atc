@@ -6,6 +6,6 @@ resource "aws_route53_record" "project" {
     aws_lb.LB.dns_name,
   ]
 
-  zone_id = "Z01872269TZV15W4L1XV"
+  zone_id = "Z028295339PBIMG6UQVHI"
   ttl = "60" 
 }
